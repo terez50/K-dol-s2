@@ -40,14 +40,10 @@
     <script>
         var aktualisJatekos = "O";
         function hely(doboz) {
+            if (doboz.innerText != "") return;
             doboz.innerText = aktualisJatekos;
-            if (aktualisJatekos == "O") {
-                aktualisJatekos = "X";
-            } else {
-                aktualisJatekos = "O";
-            }
+            aktualisJatekos = aktualisJatekos == "O" ? "X" : "O";
         }
-        terv();
     </script>
 </body>
 </html>
