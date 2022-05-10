@@ -39,13 +39,15 @@
     </div>
     <script>
         var aktualisJatekos = "O";
+        var gyozelem = false;
+
         function hely(doboz) {
-            if (doboz.innerText != "") return;
+            if (doboz.innerText != "" || gyozelem) return;
             doboz.innerText = aktualisJatekos;
             aktualisJatekos = aktualisJatekos == "O" ? "X" : "O";
             jatekTablaEllenorzes();
         }
-        
+
         function jatekTablaEllenorzes() {
             for (var i = 0; i < 3; i++) {
                 gyoztesEllenorzes(document.getElementById("0_" + i).innerText, document.getElementById("1_" + i).innerText, document.getElementById("2_" + i).innerText);
@@ -57,6 +59,7 @@
 
         function gyoztesEllenorzes(elso, masodik, harmadik) {
             if (elso != "" && elso == masodik && elso == harmadik) {
+                gyozelem = true;
                 alert("Győztes!");
             }
         }
