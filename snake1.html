@@ -27,11 +27,19 @@
         ]
     };
 
+    var kigyo = {
+        reszek: [
+            {x: 4, y: 2},
+            {x: 3, y: 2},
+            {x: 2, y: 2}
+        ],
+        irany: "E"
+    };
+
     var grafika = {
         canvas: document.getElementById("canvas"),
         negyzetMeret: 30,
-        tablaMegrajzolas: function() {
-            var ctx = grafika.canvas.getContext("2d");
+        tablaMegrajzolas: function(ctx) {
             var aktualisYoffset = 0;
             jatek.tabla.forEach(function sorEllenorzes(sor) {
                 sor = sor.split("");
@@ -44,11 +52,22 @@
                     aktualisXoffset += grafika.negyzetMeret;
                 });
                 aktualisYoffset += grafika.negyzetMeret;
+            }); 
+        },
+        kigyoMegrajzolas: function(ctx) {
+            kigyo.reszek.forEach(function reszMegrajzolas(resz) {
+                var reszXhelye = resz.x * grafika.negyzetMeret;
+                var reszYhelye = resz.y * grafika.negyzetMeret;
+                ctx.fillStyle = "green";
+                ctx.fillRect(reszXhelye, reszYhelye, grafika.negyzetMeret, grafika.negyzetMeret)
             });
-            
+        },
+        jatekMegrajzolas: function() {
+            var ctx = grafika.canvas.getContext("2d");
+            grafika.tablaMegrajzolas(ctx);
+            grafika.kigyoMegrajzolas(ctx);
         }
     };
-
-    grafika.tablaMegrajzolas();
+    grafika.jatekMegrajzolas();
 </script>
 </html>
