@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+</head>
+<body>
+    <canvas id="canvas" width="1024" height="1024"></canvas><br>
+    <input type="button" onclick="rajzol()" value="Rajzol"><br>
+    <input type="button" onclick="torol()" value="Töröl"><br>
+</body>
+<script>
+    var tabla = [
+        "###############",
+        "#             #",
+        "#             #",
+        "#             #",
+        "#    ####     #",
+        "#    ####     #",
+        "#             #",
+        "#             #",
+        "#             #",
+        "###############"
+    ];
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var aktualisYoffset = 0;
+    var negyzetMeret = 30;
+    tabla.forEach(function sorEllenorzes(sor) {
+        sor = sor.split("");
+        var aktualisXoffset = 0;
+        sor.forEach(function karakterEllenorzes(karakter) {
+            if (karakter == "#") {
+                ctx.fillStyle = "black";
+                ctx.fillRect(aktualisXoffset, aktualisYoffset, negyzetMeret, negyzetMeret);
+            }
+            aktualisXoffset += negyzetMeret;
+        });
+        aktualisYoffset += negyzetMeret;
+    });
+
+    function rajzol() {
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,30,30);
+    }
+
+    function torol() {
+        ctx.clearRect(0,0,30,30);
+    }
+</script>
+</html>
