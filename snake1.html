@@ -12,42 +12,43 @@
     <input type="button" onclick="torol()" value="Töröl"><br>
 </body>
 <script>
-    var tabla = [
-        "###############",
-        "#             #",
-        "#             #",
-        "#             #",
-        "#    ####     #",
-        "#    ####     #",
-        "#             #",
-        "#             #",
-        "#             #",
-        "###############"
-    ];
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-    var aktualisYoffset = 0;
-    var negyzetMeret = 30;
-    tabla.forEach(function sorEllenorzes(sor) {
-        sor = sor.split("");
-        var aktualisXoffset = 0;
-        sor.forEach(function karakterEllenorzes(karakter) {
-            if (karakter == "#") {
-                ctx.fillStyle = "black";
-                ctx.fillRect(aktualisXoffset, aktualisYoffset, negyzetMeret, negyzetMeret);
-            }
-            aktualisXoffset += negyzetMeret;
-        });
-        aktualisYoffset += negyzetMeret;
-    });
+    var jatek = {
+        tabla: [
+            "###############",
+            "#             #",
+            "#             #",
+            "#             #",
+            "#    ####     #",
+            "#    ####     #",
+            "#             #",
+            "#             #",
+            "#             #",
+            "###############"
+        ]
+    };
 
-    function rajzol() {
-        ctx.fillStyle = "black";
-        ctx.fillRect(0,0,30,30);
-    }
+    var grafika = {
+        canvas: document.getElementById("canvas"),
+        negyzetMeret: 30,
+        tablaMegrajzolas: function() {
+            var ctx = grafika.canvas.getContext("2d");
+            var aktualisYoffset = 0;
+            jatek.tabla.forEach(function sorEllenorzes(sor) {
+                sor = sor.split("");
+                var aktualisXoffset = 0;
+                sor.forEach(function karakterEllenorzes(karakter) {
+                    if (karakter == "#") {
+                        ctx.fillStyle = "black";
+                        ctx.fillRect(aktualisXoffset, aktualisYoffset, grafika.negyzetMeret, grafika.negyzetMeret);
+                    }
+                    aktualisXoffset += grafika.negyzetMeret;
+                });
+                aktualisYoffset += grafika.negyzetMeret;
+            });
+            
+        }
+    };
 
-    function torol() {
-        ctx.clearRect(0,0,30,30);
-    }
+    grafika.tablaMegrajzolas();
 </script>
 </html>
