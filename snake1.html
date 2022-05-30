@@ -13,6 +13,8 @@
 </body>
 <script>
     var jatek = {
+        tickSzama: 0,
+        idozito: null,
         tabla: [
             "###############",
             "#             #",
@@ -24,7 +26,12 @@
             "#             #",
             "#             #",
             "###############"
-        ]
+        ],
+        tick: function() {
+            jatek.tickSzama++;
+            grafika. jatekMegrajzolas();
+            jatek.idozito = window.setTimeout("jatek.tick()", 500);
+        }
     };
 
     var kigyo = {
@@ -33,7 +40,10 @@
             {x: 3, y: 2},
             {x: 2, y: 2}
         ],
-        irany: "E"
+        irany: "E",
+        mozgas: function() {
+            
+        }
     };
 
     var grafika = {
@@ -69,5 +79,11 @@
         }
     };
     grafika.jatekMegrajzolas();
+    var jatekIranyitas = {
+        jatekInditas: function() {
+            jatek.tick();
+        }
+    };
+    jatekIranyitas.jatekInditas();
 </script>
 </html>
