@@ -29,8 +29,9 @@
         ],
         tick: function() {
             jatek.tickSzama++;
-            grafika. jatekMegrajzolas();
-            jatek.idozito = window.setTimeout("jatek.tick()", 500);
+            kigyo.mozgas();
+            grafika.jatekMegrajzolas();
+            // jatek.idozito = window.setTimeout("jatek.tick()", 500);
         }
     };
 
@@ -42,7 +43,9 @@
         ],
         irany: "E",
         mozgas: function() {
-            
+            var hely = {x: 5, y: 2};
+            kigyo.reszek.unshift(hely);
+            kigyo.reszek.pop();
         }
     };
 
@@ -68,6 +71,7 @@
             kigyo.reszek.forEach(function reszMegrajzolas(resz) {
                 var reszXhelye = resz.x * grafika.negyzetMeret;
                 var reszYhelye = resz.y * grafika.negyzetMeret;
+                console.log("reszXhelye:", reszXhelye, "reszYhelye:", reszYhelye)
                 ctx.fillStyle = "green";
                 ctx.fillRect(reszXhelye, reszYhelye, grafika.negyzetMeret, grafika.negyzetMeret)
             });
