@@ -28,6 +28,7 @@
             "###############"
         ],
         tick: function() {
+            window.clearTimeout(jatek.idozito);
             jatek.tickSzama++;
             kigyo.mozgas();
             grafika.jatekMegrajzolas();
@@ -95,7 +96,18 @@
     };
     grafika.jatekMegrajzolas();
     var jatekIranyitas = {
+        beviteliEsemeny: function(lenyomottBillentyu) {
+            var key = lenyomottBillentyu.key.toLowerCase();
+            var celIrany = kigyo.irany;
+            if(key=="w") celIrany = "N";
+            if(key=="a") celIrany = "W";
+            if(key=="s") celIrany = "S";
+            if(key=="d") celIrany = "E";
+            kigyo.irany = celIrany;
+            jatek.tick();
+        },
         jatekInditas: function() {
+            window.addEventListener("keypress", jatekIranyitas.beviteliEsemeny, false);
             jatek.tick();
         }
     };
