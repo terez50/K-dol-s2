@@ -33,6 +33,9 @@
             kigyo.mozgas();
             grafika.jatekMegrajzolas();
             jatek.idozito = window.setTimeout("jatek.tick()", 500);
+        },
+        uresNegyzet: function(hely) {
+            return jatek.tabla[hely.y][hely.x] == " ";
         }
     };
 
@@ -55,8 +58,10 @@
         },
         mozgas: function() {
             var hely = kigyo.kovetkezoHely();
-            kigyo.reszek.unshift(hely);
-            kigyo.reszek.pop();
+            if(jatek.uresNegyzet(hely)) {
+                kigyo.reszek.unshift(hely);
+                kigyo.reszek.pop();
+            }
         }
     };
 
