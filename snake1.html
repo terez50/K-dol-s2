@@ -30,12 +30,19 @@
         tick: function() {
             window.clearTimeout(jatek.idozito);
             jatek.tickSzama++;
-            kigyo.mozgas();
+            var eredmeny = kigyo.mozgas();
+            if(eredmeny == "gameover") {
+                alert("Vége!");
+                return;
+            }
             grafika.jatekMegrajzolas();
             jatek.idozito = window.setTimeout("jatek.tick()", 500);
         },
         uresNegyzet: function(hely) {
             return jatek.tabla[hely.y][hely.x] == " ";
+        },
+        falNegyzet: function(hely) {
+            return jatek.tabla[hely.y][hely.x] == "#";
         }
     };
 
@@ -61,7 +68,10 @@
             if(jatek.uresNegyzet(hely)) {
                 kigyo.reszek.unshift(hely);
                 kigyo.reszek.pop();
-            }
+            };
+            if(jatek.falNegyzet(hely)) {
+                return "gameover";
+            };
         }
     };
 
