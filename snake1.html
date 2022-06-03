@@ -27,6 +27,9 @@
             "#             #",
             "###############"
         ],
+        gyumolcs: [
+            {x: 1, y: 1}
+        ],
         tick: function() {
             window.clearTimeout(jatek.idozito);
             jatek.tickSzama++;
@@ -102,11 +105,21 @@
                 ctx.fillRect(reszXhelye, reszYhelye, grafika.negyzetMeret, grafika.negyzetMeret)
             });
         },
+        gyumolcsMegrajzolas: function(ctx) {
+            jatek.gyumolcs.forEach(function(resz) {
+                var reszXhelye = resz.x * grafika.negyzetMeret;
+                var reszYhelye = resz.y * grafika.negyzetMeret;
+                console.log("reszXhelye:", reszXhelye, "reszYhelye:", reszYhelye)
+                ctx.fillStyle = "red";
+                ctx.fillRect(reszXhelye, reszYhelye, grafika.negyzetMeret, grafika.negyzetMeret)
+            })
+        },
         jatekMegrajzolas: function() {
             var ctx = grafika.canvas.getContext("2d");
             ctx.clearRect(0,0,grafika.canvas.width,grafika.canvas.height);
             grafika.tablaMegrajzolas(ctx);
             grafika.kigyoMegrajzolas(ctx);
+            grafika.gyumolcsMegrajzolas(ctx);
         }
     };
     grafika.jatekMegrajzolas();
