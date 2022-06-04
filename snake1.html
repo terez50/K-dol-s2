@@ -46,6 +46,16 @@
         },
         falNegyzet: function(hely) {
             return jatek.tabla[hely.y][hely.x] == "#";
+        },
+        gyumolcsNegyzet: function(hely) {
+            for(var gyumolcsSzama = 0; gyumolcsSzama < jatek.gyumolcs.length; gyumolcsSzama++) {
+                var gyumolcs = jatek.gyumolcs[gyumolcsSzama];
+                if(hely.x == gyumolcs.x && hely.y == gyumolcs.y) {
+                    jatek.gyumolcs.splice(gyumolcsSzama, 1);
+                    return true;
+                }
+            }
+            return false;
         }
     };
 
@@ -75,6 +85,10 @@
             if(jatek.falNegyzet(hely)) {
                 return "gameover";
             };
+            if(jatek.gyumolcsNegyzet(hely)) {
+                kigyo.reszek.unshift(hely);
+                jatek.pontszam++;
+            };
         }
     };
 
@@ -96,24 +110,24 @@
                 aktualisYoffset += grafika.negyzetMeret;
             }); 
         },
-        kigyoMegrajzolas: function(ctx) {
-            kigyo.reszek.forEach(function reszMegrajzolas(resz) {
-                var reszXhelye = resz.x * grafika.negyzetMeret;
-                var reszYhelye = resz.y * grafika.negyzetMeret;
-                console.log("reszXhelye:", reszXhelye, "reszYhelye:", reszYhelye)
-                ctx.fillStyle = "green";
-                ctx.fillRect(reszXhelye, reszYhelye, grafika.negyzetMeret, grafika.negyzetMeret)
-            });
-        },
-        gyumolcsMegrajzolas: function(ctx) {
-            jatek.gyumolcs.forEach(function(resz) {
-                var reszXhelye = resz.x * grafika.negyzetMeret;
-                var reszYhelye = resz.y * grafika.negyzetMeret;
-                console.log("reszXhelye:", reszXhelye, "reszYhelye:", reszYhelye)
-                ctx.fillStyle = "red";
-                ctx.fillRect(reszXhelye, reszYhelye, grafika.negyzetMeret, grafika.negyzetMeret)
-            })
-        },
+        // kigyoMegrajzolas: function(ctx) {
+        //     kigyo.reszek.forEach(function reszMegrajzolas(resz) {
+        //         var reszXhelye = resz.x * grafika.negyzetMeret;
+        //         var reszYhelye = resz.y * grafika.negyzetMeret;
+        //         console.log("reszXhelye:", reszXhelye, "reszYhelye:", reszYhelye)
+        //         ctx.fillStyle = "green";
+        //         ctx.fillRect(reszXhelye, reszYhelye, grafika.negyzetMeret, grafika.negyzetMeret)
+        //     });
+        // },
+        // gyumolcsMegrajzolas: function(ctx) {
+        //     jatek.gyumolcs.forEach(function(resz) {
+        //         var reszXhelye = resz.x * grafika.negyzetMeret;
+        //         var reszYhelye = resz.y * grafika.negyzetMeret;
+        //         console.log("reszXhelye:", reszXhelye, "reszYhelye:", reszYhelye)
+        //         ctx.fillStyle = "red";
+        //         ctx.fillRect(reszXhelye, reszYhelye, grafika.negyzetMeret, grafika.negyzetMeret)
+        //     })
+        // },
         megrajzolas: function(ctx, megrajzolando, color) {
             megrajzolando.forEach(function(resz) {
                 var reszXhelye = resz.x * grafika.negyzetMeret;
