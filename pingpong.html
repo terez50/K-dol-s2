@@ -20,19 +20,32 @@
     }
     var jatekos = new uto(5,200,25,100);
     var mi = new uto(610,200,25,100);
+    var labda = {x: 320, y: 240, radius: 3, xSebesseg: 2, ySebesseg: 0};
     function tick() {
+        jatekFrissites();
         megrajzolas();
         window.setTimeout("tick()", 1000/60)
-    }
+    };
+    function jatekFrissites() {
+        labda.x += labda.xSebesseg;
+        labda.y += labda.ySebesseg;
+    };
     function megrajzolas() {
         ctx.fillStyle = "black";
         ctx.fillRect(0,0,640,480);
         utoMegjelenites(jatekos);
         utoMegjelenites(mi);
+        labdaMegjelenites(labda);
     };
     function utoMegjelenites(uto) {
         ctx.fillStyle = "white";
         ctx.fillRect(uto.x, uto.y, uto.szelesseg, uto.magassag);
+    };
+    function labdaMegjelenites(labda) {
+        ctx.beginPath();
+        ctx.arc(labda.x, labda.y, labda.radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = "white";
+        ctx.fill();
     };
     tick();
 </script>
