@@ -17,10 +17,30 @@
         this.y = y;
         this.szelesseg = szelesseg;
         this.magassag = magassag;
+        this.utkozottValamivel = function(labda) {
+            var utoBalOldala = this.x;
+            var utoJobbOldala = this.x + this.szelesseg;
+            var utoFelsoOldala = this.y;
+            var utoAlsoOldala = this.y + this.magassag;
+            if(
+                labda.x > utoBalOldala && labda.x < utoJobbOldala &&
+                labda.y > utoFelsoOldala && labda.y < utoAlsoOldala
+            ) {
+                return true;
+            }
+            return false;
+        }
     }
     var jatekos = new uto(5,200,25,100);
     var mi = new uto(610,200,25,100);
-    var labda = {x: 320, y: 240, radius: 3, xSebesseg: 2, ySebesseg: 0};
+    var labda = {x: 320, y: 240, radius: 3, xSebesseg: 2, ySebesseg: 0,
+        reverseX: function() {
+            this.xSebesseg *= -1;
+        },
+        reverseY: function() {
+            this.ySebesseg *= -1;
+        }
+    };
     function tick() {
         jatekFrissites();
         megrajzolas();
@@ -29,6 +49,9 @@
     function jatekFrissites() {
         labda.x += labda.xSebesseg;
         labda.y += labda.ySebesseg;
+        if(jatekos.utkozottValamivel(labda) || mi.utkozottValamivel(labda)) {
+            labda.reverseX();
+        }
     };
     function megrajzolas() {
         ctx.fillStyle = "black";
