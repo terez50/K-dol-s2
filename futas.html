@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futás!</title>
+</head>
+<body>
+    <canvas id="canvas" width="640" height="480"></canvas>
+    <script>
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        function talaj(x, magassag) {
+            this.x = x;
+            this.szelesseg = 700;
+            this.magassag = magassag;
+        };
+        var vilag = {
+            magassag: 480,
+            szelesseg: 640,
+            gravitacio: 10,
+            talajCsempe: [
+                new talaj(0, 140)
+            ],
+            megrajzolas: function() {
+                ctx.fillStyle = "black";
+                ctx.fillRect(0,0,this.szelesseg, this.magassag);
+                for(index in this.talajCsempe) {
+                    var csempe = this.talajCsempe[index];
+                    var y = vilag.magassag - csempe.magassag;
+                    ctx.fillStyle = "blue";
+                    ctx.fillRect(csempe.x, y, csempe.szelesseg, csempe.magassag);
+                }
+            }
+        };
+        function tick() {
+            vilag.megrajzolas();
+            window.setTimeout("tick()", 1000 / 60);
+        };
+        tick();
+    </script>
+</body>
+</html>
