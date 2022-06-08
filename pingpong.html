@@ -29,7 +29,19 @@
                 return true;
             }
             return false;
-        }
+        };
+        this.mozgatas = function(keyCode) {
+            var kovetkezoY = this.y;
+            if (keyCode == 40) {
+                kovetkezoY += 5;
+            };
+            if (keyCode == 38) {
+                kovetkezoY -= 5;
+            };
+            kovetkezoY = kovetkezoY < 0 ? 0 : kovetkezoY;
+            kovetkezoY = kovetkezoY > 480 - this.magassag ? 480 - this.magassag : kovetkezoY;
+            this.y = kovetkezoY;
+        };
     }
     var jatekos = new uto(5,200,25,100);
     var mi = new uto(610,200,25,100);
@@ -49,9 +61,14 @@
     function jatekFrissites() {
         labda.x += labda.xSebesseg;
         labda.y += labda.ySebesseg;
+        var jatekossalUtkozott = jatekos.utkozottValamivel(labda);
+        var geppelUtkozott = mi.utkozottValamivel(labda);
         if(jatekos.utkozottValamivel(labda) || mi.utkozottValamivel(labda)) {
             labda.reverseX();
-        }
+        };
+        for(var keyCode in lenyomottBillentyu) {
+            jatekos.mozgatas(keyCode);
+        };
     };
     function megrajzolas() {
         ctx.fillStyle = "black";
@@ -70,6 +87,11 @@
         ctx.fillStyle = "white";
         ctx.fill();
     };
+    var lenyomottBillentyu = {};
+    window.addEventListener("keydown", function(keyInfo) {
+        lenyomottBillentyu[event.keyCode] = true; }, false);
+    window.addEventListener("keyup", function(keyInfo) {
+        delete lenyomottBillentyu[event.keyCode];}, false);
     tick();
 </script>
 </html>
