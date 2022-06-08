@@ -56,15 +56,22 @@
         reverseY: function() {
             this.ySebesseg *= -1;
         },
+        ujrainditas: function() {
+            this.x = 320;
+            this.y = 240;
+            this.xSebesseg = 2;
+            this.ySebesseg = 0;
+        },
         pattogas: function() {
             return labda.ySebesseg != 0;
         },
-        xSebessegmodositas: function(modositas) {
+        xSebessegModositas: function(modositas) {
             modositas = this.xSebesseg < 0 ? modositas * -1 : modositas;
-            var kovetkezoErtek = Math.abs(kovetkezoErtek) > 9 ? 9 : kovetkezoErtek;
+            var kovetkezoErtek = this.xSebesseg + modositas;
+            kovetkezoErtek = Math.abs(kovetkezoErtek) > 9 ? 9 : kovetkezoErtek;
             this.xSebesseg = kovetkezoErtek;
         },
-        ySebessegmodositas: function(modositas) {
+        ySebessegModositas: function(modositas) {
             modositas = this.ySebesseg < 0 ? modositas * -1 : modositas;
             this.ySebesseg += modositas;
         },
@@ -77,10 +84,18 @@
     function jatekFrissites() {
         labda.x += labda.xSebesseg;
         labda.y += labda.ySebesseg;
+        if(labda.x < 0 || labda.x > 640) {
+            labda.ujrainditas();
+        };
+        if(labda.y <= 0 || labda.y >= 480) { labda.reverseY();}
         var jatekossalUtkozott = jatekos.utkozottValamivel(labda);
         var geppelUtkozott = mi.utkozottValamivel(labda);
-        if(jatekos.utkozottValamivel(labda) || mi.utkozottValamivel(labda)) {
+        if (jatekossalUtkozott || geppelUtkozott) {
             labda.reverseX();
+            labda.xSebessegModositas(0.25);
+            var sebessegGyorsitas = jatekossalUtkozott ?
+                jatekos.sebessegModositas : mi.sebessegModositas;
+            labda.ySebessegModositas(sebessegGyorsitas);
         };
         for(var keyCode in lenyomottBillentyu) {
             jatekos.mozgatas(keyCode);
