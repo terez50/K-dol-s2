@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pingpong</title>
 </head>
+
 <body>
     <canvas id="canvas" width="640" height="480"></canvas>
 </body>
@@ -18,12 +20,12 @@
         this.szelesseg = szelesseg;
         this.magassag = magassag;
         this.sebessegModositas = 0;
-        this.utkozottValamivel = function(labda) {
+        this.utkozottValamivel = function (labda) {
             var utoBalOldala = this.x;
             var utoJobbOldala = this.x + this.szelesseg;
             var utoFelsoOldala = this.y;
             var utoAlsoOldala = this.y + this.magassag;
-            if(
+            if (
                 labda.x > utoBalOldala && labda.x < utoJobbOldala &&
                 labda.y > utoFelsoOldala && labda.y < utoAlsoOldala
             ) {
@@ -31,7 +33,7 @@
             }
             return false;
         };
-        this.mozgatas = function(keyCode) {
+        this.mozgatas = function (keyCode) {
             var kovetkezoY = this.y;
             if (keyCode == 40) {
                 kovetkezoY += 5;
@@ -47,24 +49,26 @@
             this.y = kovetkezoY;
         };
     }
-    var jatekos = new uto(5,200,25,100);
-    var mi = new uto(610,200,25,100);
-    var labda = {x: 320, y: 240, radius: 3, xSebesseg: 2, ySebesseg: 0,
-        reverseX: function() {
+    var jatekos = new uto(5, 200, 25, 100);
+    var mi = new uto(610, 200, 25, 100);
+    var labda = {
+        x: 320, y: 240, radius: 3, xSebesseg: -2, ySebesseg: 0,
+        reverseX: function () {
             this.xSebesseg *= -1;
         },
-        reverseY: function() {
+        reverseY: function () {
             this.ySebesseg *= -1;
         },
-        pattogas: function() {
+        pattogas: function () {
             return labda.ySebesseg != 0;
         },
-        xSebessegmodositas: function(modositas) {
+        xSebessegModositas: function (modositas) {
             modositas = this.xSebesseg < 0 ? modositas * -1 : modositas;
-            var kovetkezoErtek = Math.abs(kovetkezoErtek) > 9 ? 9 : kovetkezoErtek;
+            var kovetkezoErtek = this.xSebesseg + modositas;
+            kovetkezoErtek = Math.abs(kovetkezoErtek) > 9 ? 9 : kovetkezoErtek;
             this.xSebesseg = kovetkezoErtek;
         },
-        ySebessegmodositas: function(modositas) {
+        ySebessegModositas: function (modositas) {
             modositas = this.ySebesseg < 0 ? modositas * -1 : modositas;
             this.ySebesseg += modositas;
         },
@@ -72,23 +76,27 @@
     function tick() {
         jatekFrissites();
         megrajzolas();
-        window.setTimeout("tick()", 1000/60)
+        window.setTimeout("tick()", 1000 / 60)
     };
     function jatekFrissites() {
         labda.x += labda.xSebesseg;
         labda.y += labda.ySebesseg;
         var jatekossalUtkozott = jatekos.utkozottValamivel(labda);
         var geppelUtkozott = mi.utkozottValamivel(labda);
-        if(jatekos.utkozottValamivel(labda) || mi.utkozottValamivel(labda)) {
+        if (jatekossalUtkozott || geppelUtkozott) {
             labda.reverseX();
+            labda.xSebessegModositas(0.25);
+            var sebessegGyorsitas = jatekossalUtkozott ?
+                jatekos.sebessegModositas : mi.sebessegModositas;
+            labda.ySebessegModositas(sebessegGyorsitas);
         };
-        for(var keyCode in lenyomottBillentyu) {
+        for (var keyCode in lenyomottBillentyu) {
             jatekos.mozgatas(keyCode);
         };
     };
     function megrajzolas() {
         ctx.fillStyle = "black";
-        ctx.fillRect(0,0,640,480);
+        ctx.fillRect(0, 0, 640, 480);
         utoMegjelenites(jatekos);
         utoMegjelenites(mi);
         labdaMegjelenites(labda);
@@ -104,10 +112,13 @@
         ctx.fill();
     };
     var lenyomottBillentyu = {};
-    window.addEventListener("keydown", function(keyInfo) {
-        lenyomottBillentyu[event.keyCode] = true; }, false);
-    window.addEventListener("keyup", function(keyInfo) {
-        delete lenyomottBillentyu[event.keyCode];}, false);
+    window.addEventListener("keydown", function (keyInfo) {
+        lenyomottBillentyu[event.keyCode] = true;
+    }, false);
+    window.addEventListener("keyup", function (keyInfo) {
+        delete lenyomottBillentyu[event.keyCode];
+    }, false);
     tick();
 </script>
+
 </html>
