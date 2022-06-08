@@ -17,6 +17,7 @@
         this.y = y;
         this.szelesseg = szelesseg;
         this.magassag = magassag;
+        this.sebessegModositas = 0;
         this.utkozottValamivel = function(labda) {
             var utoBalOldala = this.x;
             var utoJobbOldala = this.x + this.szelesseg;
@@ -34,9 +35,12 @@
             var kovetkezoY = this.y;
             if (keyCode == 40) {
                 kovetkezoY += 5;
-            };
-            if (keyCode == 38) {
+                this.sebessegModositas = 1.5;
+            } else if (keyCode == 38) {
                 kovetkezoY -= 5;
+                this.sebessegModositas = 1.5;
+            } else {
+                this.sebessegModositas = 0;
             };
             kovetkezoY = kovetkezoY < 0 ? 0 : kovetkezoY;
             kovetkezoY = kovetkezoY > 480 - this.magassag ? 480 - this.magassag : kovetkezoY;
@@ -51,7 +55,19 @@
         },
         reverseY: function() {
             this.ySebesseg *= -1;
-        }
+        },
+        pattogas: function() {
+            return labda.ySebesseg != 0;
+        },
+        xSebessegmodositas: function(modositas) {
+            modositas = this.xSebesseg < 0 ? modositas * -1 : modositas;
+            var kovetkezoErtek = Math.abs(kovetkezoErtek) > 9 ? 9 : kovetkezoErtek;
+            this.xSebesseg = kovetkezoErtek;
+        },
+        ySebessegmodositas: function(modositas) {
+            modositas = this.ySebesseg < 0 ? modositas * -1 : modositas;
+            this.ySebesseg += modositas;
+        },
     };
     function tick() {
         jatekFrissites();
