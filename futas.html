@@ -20,9 +20,21 @@
             magassag: 480,
             szelesseg: 640,
             gravitacio: 10,
+            sebesseg: 5,
+            megtettTav: 0,
             talajCsempe: [
                 new talaj(0, 140)
             ],
+            talajMozgatas: function() {
+                for(index in this.talajCsempe) {
+                    var csempe = this.talajCsempe[index];
+                    csempe.x -= this.sebesseg;
+                    this.megtettTav += this.sebesseg;
+                }
+            },
+            tick: function() {
+                this.talajMozgatas();
+            },
             megrajzolas: function() {
                 ctx.fillStyle = "black";
                 ctx.fillRect(0,0,this.szelesseg, this.magassag);
@@ -35,6 +47,7 @@
             }
         };
         function tick() {
+            vilag.tick();
             vilag.megrajzolas();
             window.setTimeout("tick()", 1000 / 60);
         };
