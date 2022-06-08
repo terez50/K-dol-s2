@@ -100,6 +100,9 @@
         for(var keyCode in lenyomottBillentyu) {
             jatekos.mozgatas(keyCode);
         };
+        var miKozepe = mi.y + mi.magassag / 2;
+        if(miKozepe < labda.y) {mi.mozgatas(40);}
+        if(miKozepe > labda.y) {mi.mozgatas(38);}
     };
     function megrajzolas() {
         ctx.fillStyle = "black";
