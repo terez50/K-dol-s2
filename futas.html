@@ -20,6 +20,7 @@
             magassag: 480,
             szelesseg: 640,
             gravitacio: 10,
+            legmagasabbTalaj: 240,
             sebesseg: 5,
             megtettTav: 0,
             talajCsempe: [
@@ -32,7 +33,26 @@
                     this.megtettTav += this.sebesseg;
                 }
             },
+            ujCsempeHozzaadas: function() {
+                if(this.talajCsempe.length >= 3) {
+                    return;
+                };
+                var elozoCsempe = this.talajCsempe[this.talajCsempe.length - 1];
+                var randomMagassag = Math.floor(Math.random() *  this.legmagasabbTalaj) + 20;
+                balErtek = elozoCsempe.x + elozoCsempe.szelesseg;
+                var kovetkezo = new talaj(balErtek, randomMagassag);
+                this.talajCsempe.push(kovetkezo);
+            },
+            regiCsempekTorlese: function() {
+                for (index in this.talajCsempe) {
+                    if(this.talajCsempe[index].x <= -this.talajCsempe[index].szelesseg) {
+                        this.talajCsempe.splice(index,1);
+                    }
+                }
+            },
             tick: function() {
+                this.regiCsempekTorlese();
+                this.ujCsempeHozzaadas();
                 this.talajMozgatas();
             },
             megrajzolas: function() {
