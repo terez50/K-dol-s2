@@ -50,6 +50,15 @@
                     }
                 }
             },
+            talajTavMegadas: function(jatekosX) {
+                for(index in this.talajCsempe) {
+                    var csempe = this.talajCsempe[index];
+                    if(csempe.x <= jatekosX && csempe.x + csempe.szelesseg >= jatekosX) {
+                        return csempe.magassag;
+                    }
+                }
+                return -1;
+            },
             tick: function() {
                 this.regiCsempekTorlese();
                 this.ujCsempeHozzaadas();
@@ -71,12 +80,21 @@
             y: 340,
             magassag: 20,
             szelesseg: 20,
+            gravitacioAlkalmazas: function() {
+                var lentiPlatform = vilag.talajTavMegadas(this.x);
+                this.aktualisTalajTav = vilag.magassag - lentiPlatform - this.y;
+                // console.log("játékos: ", this.aktualisTalajTav);
+            },
+            tick: function() {
+                this.gravitacioAlkalmazas();
+            },
             megrajzolas: function() {
                 ctx.fillStyle = "green";
                 ctx.fillRect(jatekos.x, jatekos.y - jatekos.magassag, this.szelesseg, this. magassag)
             }
         }
         function tick() {
+            jatekos.tick();
             vilag.tick();
             vilag.megrajzolas();
             jatekos.megrajzolas();
