@@ -23,9 +23,13 @@
             legmagasabbTalaj: 240,
             sebesseg: 5,
             megtettTav: 0,
+            autoScroll: true,
             talajCsempe: [
                 new talaj(0, 140)
             ],
+            stop: function() {
+                this.autoScroll = false;
+            },
             talajMozgatas: function() {
                 for(index in this.talajCsempe) {
                     var csempe = this.talajCsempe[index];
@@ -60,6 +64,9 @@
                 return -1;
             },
             tick: function() {
+                if(!this.autoScroll) {
+                    return;
+                };
                 this.regiCsempekTorlese();
                 this.ujCsempeHozzaadas();
                 this.talajMozgatas();
@@ -80,10 +87,18 @@
             y: 340,
             magassag: 20,
             szelesseg: 20,
+            tavMegadas: function(x) {
+                var lentiPlatform = vilag.talajTavMegadas(x);
+                return vilag.magassag - lentiPlatform - this.y;
+            },
             gravitacioAlkalmazas: function() {
-                var lentiPlatform = vilag.talajTavMegadas(this.x);
-                this.aktualisTalajTav = vilag.magassag - lentiPlatform - this.y;
+                // var lentiPlatform = vilag.talajTavMegadas(this.x);
+                this.aktualisTalajTav = this.tavMegadas(this.x);
                 // console.log("játékos: ", this.aktualisTalajTav);
+                var jobbOldaliTav = this.tavMegadas(this.x + this.szelesseg);
+                if(this.aktualisTalajTav < 0 || jobbOldaliTav < 0) {
+                    vilag.stop();
+                }
             },
             gravitácioFeldolgozas: function() {
                 this.y += vilag.gravitacio;
