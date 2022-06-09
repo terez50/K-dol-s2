@@ -87,6 +87,8 @@
             y: 340,
             magassag: 20,
             szelesseg: 20,
+            lehuzoEro: vilag.gravitacio,
+            ugrasMagassag: 0,
             tavMegadas: function(x) {
                 var lentiPlatform = vilag.talajTavMegadas(x);
                 return vilag.magassag - lentiPlatform - this.y;
@@ -101,11 +103,27 @@
                 }
             },
             gravitácioFeldolgozas: function() {
-                this.y += vilag.gravitacio;
+                // this.y += vilag.gravitacio;
+                this.y += this.lehuzoEro;
                 var talajMagassag = vilag.talajTavMegadas(this.x, this.szelesseg);
                 var talajYMagassaga = vilag.magassag - talajMagassag;
                 if(this.y > talajYMagassaga) {
                     this.y = talajYMagassaga;
+                }
+                if(this.lehuzoEro < 0) {
+                    this.ugrasMagassag += this.lehuzoEro * -1;
+                    if(this.ugrasMagassag >= jatekos.magassag * 6) {
+                        this.lehuzoEro = vilag.gravitacio;
+                        this.ugrasMagassag = 0;
+                    }
+                }
+            },
+            billentyuLenyomas: function(keyInfo) {
+                console.log("billentyűlenyomás");
+                var talajMagassag = vilag.talajTavMegadas(this.x, this.szelesseg);
+                var aPadlon = talajMagassag == (vilag.magassag - this.y);
+                if(aPadlon) {
+                    this.lehuzoEro = -8;
                 }
             },
             tick: function() {
@@ -116,7 +134,10 @@
                 ctx.fillStyle = "green";
                 ctx.fillRect(jatekos.x, jatekos.y - jatekos.magassag, this.szelesseg, this. magassag)
             }
-        }
+        };
+        window.addEventListener("keypress", function(keyInfo) 
+            { jatekos.billentyuLenyomas(keyInfo); }, false
+        );
         function tick() {
             jatekos.tick();
             vilag.tick();
