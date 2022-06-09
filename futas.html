@@ -85,7 +85,16 @@
                 this.aktualisTalajTav = vilag.magassag - lentiPlatform - this.y;
                 // console.log("játékos: ", this.aktualisTalajTav);
             },
+            gravitácioFeldolgozas: function() {
+                this.y += vilag.gravitacio;
+                var talajMagassag = vilag.talajTavMegadas(this.x, this.szelesseg);
+                var talajYMagassaga = vilag.magassag - talajMagassag;
+                if(this.y > talajYMagassaga) {
+                    this.y = talajYMagassaga;
+                }
+            },
             tick: function() {
+                this.gravitácioFeldolgozas();
                 this.gravitacioAlkalmazas();
             },
             megrajzolas: function() {
