@@ -66,9 +66,20 @@
                 }
             }
         };
+        var jatekos = {
+            x: 160,
+            y: 340,
+            magassag: 20,
+            szelesseg: 20,
+            megrajzolas: function() {
+                ctx.fillStyle = "green";
+                ctx.fillRect(jatekos.x, jatekos.y - jatekos.magassag, this.szelesseg, this. magassag)
+            }
+        }
         function tick() {
             vilag.tick();
             vilag.megrajzolas();
+            jatekos.megrajzolas();
             window.setTimeout("tick()", 1000 / 60);
         };
         tick();
