@@ -42,7 +42,11 @@
                     return;
                 };
                 var elozoCsempe = this.talajCsempe[this.talajCsempe.length - 1];
-                var randomMagassag = Math.floor(Math.random() *  this.legmagasabbTalaj) + 20;
+                var legnagyobbUgrasMagassag = elozoCsempe.magassag + jatekos.magassag * 3.5;
+                if(legnagyobbUgrasMagassag > this.legmagasabbTalaj) {
+                    legnagyobbUgrasMagassag = this.legmagasabbTalaj;
+                };
+                var randomMagassag = Math.floor(Math.random() *  legnagyobbUgrasMagassag) + jatekos.magassag;
                 balErtek = elozoCsempe.x + elozoCsempe.szelesseg;
                 var kovetkezo = new talaj(balErtek, randomMagassag);
                 this.talajCsempe.push(kovetkezo);
