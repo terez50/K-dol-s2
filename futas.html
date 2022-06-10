@@ -23,6 +23,8 @@
             legmagasabbTalaj: 240,
             sebesseg: 5,
             megtettTav: 0,
+            maxSebesseg: 15,
+            lefutottCsempek: 0,
             autoScroll: true,
             talajCsempe: [
                 new talaj(0, 140)
@@ -55,6 +57,10 @@
                 for (index in this.talajCsempe) {
                     if(this.talajCsempe[index].x <= -this.talajCsempe[index].szelesseg) {
                         this.talajCsempe.splice(index,1);
+                        this.lefutottCsempek++;
+                        if(this.lefutottCsempek % 3 == 0 && this.sebesseg < this.maxSebesseg) {
+                            this.sebesseg++;
+                        }
                     }
                 }
             },
@@ -83,6 +89,10 @@
                     var y = vilag.magassag - csempe.magassag;
                     ctx.fillStyle = "blue";
                     ctx.fillRect(csempe.x, y, csempe.szelesseg, csempe.magassag);
+                    ctx.fillStyle = "white";
+                    ctx.font = "28px Arial";
+                    ctx.fillText("Sebesség: " + this.sebesseg, 10, 40);
+                    ctx.fillText("Megtett út: " + this.megtettTav, 10, 75);
                 }
             }
         };
